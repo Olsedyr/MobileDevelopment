@@ -31,7 +31,9 @@ const initializeServer = async () => {
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use("/public", express.static("public")); // Serve static files
+
+// Serve static files
+app.use("/public", express.static("public"));
 
 // Routes
 const authRoutes = require("./routes/auth");
