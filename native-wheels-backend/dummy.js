@@ -22,6 +22,8 @@ const dummyCars = [
     year: 2022,
     available: true,
     image: "aventador.webp",
+    cylinders: 12,
+    horsePower: 750,
   },
   {
     make: "Porsche",
@@ -29,6 +31,8 @@ const dummyCars = [
     year: 2017,
     available: true,
     image: "panamera.webp",
+    cylinders: 8,
+    horsePower: 550,
   },
   {
     make: "Porsche",
@@ -36,6 +40,8 @@ const dummyCars = [
     year: 2022,
     available: true,
     image: "gt3touring.webp",
+    cylinders: 6,
+    horsePower: 510,
   },
   {
     make: "Mercedes",
@@ -43,6 +49,8 @@ const dummyCars = [
     year: 2018,
     available: true,
     image: "gwagon.webp",
+    cylinders: 8,
+    horsePower: 585,
   },
   {
     make: "Bentley",
@@ -50,6 +58,8 @@ const dummyCars = [
     year: 2014,
     available: true,
     image: "bentley.webp",
+    cylinders: 8,
+    horsePower: 507,
   },
 ];
 
