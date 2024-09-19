@@ -14,6 +14,18 @@ There is an example in the `.env.example` which can be copied with the following
 cp .env.example .env
 ```
 
+### Shell Script
+
+To start the database, insert dummy data and start the backend server all in one command, you can run the provided shell script `start.sh`.
+
+> (Note that this still requires the .env to be populated as described in previous step)
+
+Run the following command:
+
+```bash
+bash start.sh
+```
+
 ### Database
 
 To start the database run the following command:

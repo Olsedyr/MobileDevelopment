@@ -1,5 +1,6 @@
 const express = require("express");
 const Car = require("../models/Car");
+const Booking = require("../models/Booking");
 const authMiddleware = require("../middleware/auth");
 
 const router = express.Router();
@@ -34,6 +35,13 @@ router.post("/:id/book", async (req, res) => {
   if (car && car.available) {
     car.available = false;
     await car.save();
+
+    const booking = new Booking({
+      userId: req.user.id,
+      carId: car._id,
+    });
+    await booking.save();
+
     res.send("Car booked");
   } else {
     res.status(400).send("Car not available");

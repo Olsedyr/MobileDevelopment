@@ -42,5 +42,8 @@ app.use("/api/auth", authRoutes);
 const carRoutes = require("./routes/cars");
 app.use("/api/cars", carRoutes);
 
+const bookingsRoutes = require("./routes/bookings");
+app.use("/api/bookings", bookingsRoutes);
+
 // Run the server
 initializeServer();
