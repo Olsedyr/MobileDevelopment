@@ -6,14 +6,27 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
+function addImageUrl(car, req) {
+  return {
+    ...car.toObject(),
+    imageUrl: `${req.protocol}://${req.get("host")}/public/cars/${car.image}`,
+  };
+}
+
 router.get("/", async (req, res) => {
   const cars = await Car.find();
-  res.json(cars);
+  const carsWithImageUrls = cars.map((car) => addImageUrl(car, req));
+  res.json(carsWithImageUrls);
 });
 
 router.get("/:id", async (req, res) => {
   const car = await Car.findById(req.params.id);
-  res.json(car);
+  if (car) {
+    const carWithImageUrl = addImageUrl(car, req);
+    res.json(carWithImageUrl);
+  } else {
+    res.status(404).send("Car not found");
+  }
 });
 
 router.post("/:id/book", async (req, res) => {

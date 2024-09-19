@@ -1,17 +1,13 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const Car = require("./models/Car"); // Adjust the path if necessary
+const Car = require("./models/Car");
 
 // Load environment variables
 dotenv.config();
 
-// Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("MongoDB connected");
   } catch (error) {
     console.error("MongoDB connection failed", error);
@@ -19,24 +15,52 @@ const connectDB = async () => {
   }
 };
 
-// Dummy car data
 const dummyCars = [
-  { make: "Toyota", model: "Camry", year: 2020, available: true },
-  { make: "Honda", model: "Civic", year: 2019, available: true },
-  { make: "Ford", model: "Focus", year: 2021, available: false },
-  { make: "Chevrolet", model: "Malibu", year: 2018, available: true },
+  {
+    make: "Lamborghini",
+    model: "Aventador LP750-4 SV",
+    year: 2022,
+    available: true,
+    image: "aventador.webp",
+  },
+  {
+    make: "Porsche",
+    model: "Panamera Turbo",
+    year: 2017,
+    available: true,
+    image: "panamera.webp",
+  },
+  {
+    make: "Porsche",
+    model: "911 GT3 Touring",
+    year: 2022,
+    available: true,
+    image: "gt3touring.webp",
+  },
+  {
+    make: "Mercedes",
+    model: "G63 AMG",
+    year: 2018,
+    available: true,
+    image: "gwagon.webp",
+  },
+  {
+    make: "Bentley",
+    model: "Continental GT",
+    year: 2014,
+    available: true,
+    image: "bentley.webp",
+  },
 ];
 
-// Seed the database
 const seedCars = async () => {
   await connectDB();
 
-  await Car.deleteMany({}); // Clear existing data
-  const result = await Car.insertMany(dummyCars); // Insert dummy data
+  await Car.deleteMany({});
+  const result = await Car.insertMany(dummyCars);
   console.log(`${result.length} cars added.`);
 
-  mongoose.connection.close(); // Close the connection
+  mongoose.connection.close();
 };
 
-// Run the seed function
 seedCars();

@@ -5,6 +5,7 @@ const carSchema = new mongoose.Schema({
   model: { type: String, required: true },
   year: { type: Number, required: true },
   available: { type: Boolean, default: true },
+  image: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Car", carSchema);
