@@ -30,19 +30,9 @@ const connectDB = async () => {
 app.use(cors());
 app.use(express.json());
 
-// Routes (add your routes here)
-// app.use('/api/auth', authRoutes);
-// app.use('/api/cars', carRoutes);
-// Sample route to get a list of cars
-app.get("/api/cars", (req, res) => {
-  res.json({ message: "List of cars" });
-});
-
-// Sample route to book a car
-app.post("/api/cars/book", (req, res) => {
-  const { carId } = req.body; // Assuming you send carId in the request body
-  res.json({ message: `Car with ID ${carId} booked successfully!` });
-});
+// Import and use the auth routes
+const authRoutes = require("./routes/auth");
+app.use("/api/auth", authRoutes);
 
 // Call the connectDB function to initiate the connection
 connectDB();
