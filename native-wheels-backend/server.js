@@ -34,5 +34,8 @@ app.use(express.json());
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
 
+const carRoutes = require("./routes/cars");
+app.use("/api/cars", carRoutes);
+
 // Call the connectDB function to initiate the connection
 connectDB();
