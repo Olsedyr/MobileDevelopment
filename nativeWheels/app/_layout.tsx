@@ -15,6 +15,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ColorSchemeName } from "react-native";
 import AxiosErrorHandler from "@/contexts/AxiosErrorHandler";
 import LoginScreen from "@/components/auth/LoginScreen";
+import Toast from "react-native-toast-message";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,6 +40,7 @@ export default function RootLayout() {
     <AuthProvider>
       <AxiosErrorHandler>
         <AppContent colorScheme={colorScheme} />
+        <Toast />
       </AxiosErrorHandler>
     </AuthProvider>
   );

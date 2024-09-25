@@ -3,6 +3,7 @@ import { View, TextInput, Button, StyleSheet } from "react-native";
 import { useAuth } from "@/contexts/AuthContext";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
+import Toast from "react-native-toast-message";
 
 export default function LoginScreen() {
   const { login } = useAuth();
@@ -13,7 +14,13 @@ export default function LoginScreen() {
     try {
       await login(username, password);
     } catch (error) {
-      console.error("Failed to login", error);
+      console.log("should show toast");
+      Toast.show({
+        type: "error",
+        text1: "Login failed",
+        text2: "Please check your username and password.",
+        position: "bottom",
+      });
     }
   };
 
