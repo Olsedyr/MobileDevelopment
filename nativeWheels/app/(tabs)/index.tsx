@@ -13,6 +13,15 @@ export default function HomeScreen() {
   const [username, setUsername] = useState<string | null>(null);
   const { logout } = useAuth();
 
+  const handleLogout = async () => {
+    logout();
+    Toast.show({
+      type: "info",
+      text1: "Logged out",
+      text2: "You have been successfully logged out.",
+      position: "bottom",
+    });
+  };
   useEffect(() => {
     const fetchUserInfo = async () => {
       const userInfo = await getUserInfo();
@@ -67,7 +76,7 @@ export default function HomeScreen() {
         </ThemedText>
       </ThemedView>
       <View style={styles.buttonContainer}>
-        <Button title="Sign out" onPress={logout} />
+        <Button title="Sign out" onPress={handleLogout} />
       </View>
     </ParallaxScrollView>
   );

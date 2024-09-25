@@ -50,12 +50,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await AsyncStorage.removeItem("token");
     setToken(null);
     setIsAuthenticated(false);
-    Toast.show({
-      type: "info",
-      text1: "Logged out",
-      text2: "You have been successfully logged out.",
-      position: "bottom",
-    });
   };
 
   return (
