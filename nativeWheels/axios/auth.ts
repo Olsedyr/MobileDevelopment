@@ -24,16 +24,10 @@ export const authenticate = async (username: string, password: string) => {
 
 export const register = async (username: string, password: string) => {
   try {
-    const response = await instance.post("/auth/register", {
+    await instance.post("/auth/register", {
       username,
       password,
     });
-    const { token, tokenType } = response.data;
-    await AsyncStorage.setItem("token", token);
-    instance.defaults.headers.common[
-      authorizationHeader
-    ] = `${tokenType} ${token}`;
-    return { token, tokenType };
   } catch (error) {
     console.error("Failed to register:", error);
     throw error;

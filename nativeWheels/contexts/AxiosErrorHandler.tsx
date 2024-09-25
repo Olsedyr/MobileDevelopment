@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 
 import { useAuth } from "./AuthContext";
 import instance from "@/axios/instance";
+import Toast from "react-native-toast-message";
 
 const AxiosErrorHandler = ({ children }: { children: React.ReactNode }) => {
   const { logout } = useAuth();
@@ -11,8 +12,13 @@ const AxiosErrorHandler = ({ children }: { children: React.ReactNode }) => {
       (response) => response,
       async (error) => {
         if (error.response && error.response.status === 401) {
-          console.log("Logging out due to 401 error");
           logout();
+          Toast.show({
+            type: "error",
+            text1: "Session expired",
+            text2: "Please log in again.",
+            position: "bottom",
+          });
         }
         return Promise.reject(error);
       }

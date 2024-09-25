@@ -12,15 +12,18 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 
-import { ColorSchemeName } from "react-native";
+import { ColorSchemeName, LogBox } from "react-native";
 import AxiosErrorHandler from "@/contexts/AxiosErrorHandler";
-import LoginScreen from "@/components/auth/LoginScreen";
+
 import Toast from "react-native-toast-message";
+import AuthenticationScreen from "@/components/auth/AuthenticationScreen";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -50,7 +53,7 @@ function AppContent({ colorScheme }: { colorScheme: ColorSchemeName }) {
   const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
-    return <LoginScreen />;
+    return <AuthenticationScreen />;
   }
 
   return (

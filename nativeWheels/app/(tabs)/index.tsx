@@ -13,7 +13,6 @@ export default function HomeScreen() {
   const { logout } = useAuth();
 
   useEffect(() => {
-    console.log("Home screen mounted");
     const fetchUserInfo = async () => {
       const userInfo = await getUserInfo();
       setUsername(userInfo.username);

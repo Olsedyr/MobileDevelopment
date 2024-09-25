@@ -41,10 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signup = async (username: string, password: string): Promise<void> => {
-    const { token, tokenType } = await register(username, password);
-    setToken(token);
-    setIsAuthenticated(true);
-    await AsyncStorage.setItem("token", token);
+    await register(username, password);
   };
 
   const logout = async () => {
