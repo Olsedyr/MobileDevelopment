@@ -61,7 +61,7 @@ node server.js
 To register a new user, send a `POST` request to the following endpoint:
 
 ```bash
-/api/register
+/api/auth/register
 ```
 
 The request body should be in JSON format and include the following fields:
@@ -78,7 +78,7 @@ The request body should be in JSON format and include the following fields:
 To log in a user, send a `POST` request to the following endpoint:
 
 ```bash
-/api/login
+/api/auth/login
 ```
 
 The request body should be in JSON format and include the following fields:
