@@ -7,6 +7,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { getUserInfo } from "@/axios/auth";
 import { useAuth } from "@/contexts/AuthContext";
+import Toast from "react-native-toast-message";
 
 export default function HomeScreen() {
   const [username, setUsername] = useState<string | null>(null);

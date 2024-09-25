@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authenticate, register, removeAuthHeader } from "@/axios/auth";
+import Toast from "react-native-toast-message";
 
 interface AuthContextProps {
   token: string | null;
@@ -49,6 +50,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await AsyncStorage.removeItem("token");
     setToken(null);
     setIsAuthenticated(false);
+    Toast.show({
+      type: "info",
+      text1: "Logged out",
+      text2: "You have been successfully logged out.",
+      position: "bottom",
+    });
   };
 
   return (
