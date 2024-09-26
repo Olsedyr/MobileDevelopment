@@ -1,8 +1,7 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 
 import { useAuth } from "./AuthContext";
 import instance from "@/axios/instance";
-import Toast from "react-native-toast-message";
 import { showErrorToast } from "@/components/toast";
 
 const AxiosErrorHandler = ({ children }: { children: React.ReactNode }) => {

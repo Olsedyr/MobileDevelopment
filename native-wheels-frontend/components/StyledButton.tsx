@@ -1,24 +1,32 @@
 import { Colors } from "@/constants/Colors";
-import React from "react";
+import React, { ReactNode } from "react";
 import {
   TouchableOpacity,
   Text,
   StyleSheet,
   TouchableOpacityProps,
+  View,
 } from "react-native";
 
 interface StyledButtonProps extends TouchableOpacityProps {
   title: string;
   onPress: () => void;
   type?: "primary" | "secondary" | "outline";
+  icon?: ReactNode;
 }
 
 export default function StyledButton({
   title,
   onPress,
   type = "primary",
+  icon,
   ...props
 }: StyledButtonProps) {
+  const textColor =
+    type === "outline"
+      ? styles.outlineButtonText.color
+      : styles.buttonText.color;
+
   return (
     <TouchableOpacity
       style={[
@@ -29,14 +37,24 @@ export default function StyledButton({
       onPress={onPress}
       {...props}
     >
-      <Text
-        style={[
-          styles.buttonText,
-          type === "outline" && styles.outlineButtonText,
-        ]}
-      >
-        {title}
-      </Text>
+      <View style={styles.content}>
+        {icon && (
+          <View style={styles.icon}>
+            {React.cloneElement(icon as React.ReactElement, {
+              color: textColor,
+              size: 24,
+            })}
+          </View>
+        )}
+        <Text
+          style={[
+            styles.buttonText,
+            type === "outline" && styles.outlineButtonText,
+          ]}
+        >
+          {title}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -53,6 +71,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 2,
+  },
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icon: {
+    marginRight: 8,
   },
   buttonText: {
     color: "#fff",

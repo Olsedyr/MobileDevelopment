@@ -7,6 +7,8 @@ import StyledInput from "../StyledInput";
 import StyledButton from "../StyledButton";
 import { showErrorToast, showSuccessToast } from "../toast";
 import { AxiosError } from "axios";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function AuthenticationScreen() {
   const { login, signup } = useAuth();
@@ -61,8 +63,9 @@ export default function AuthenticationScreen() {
   return (
     <ThemedView style={styles.container}>
       <ThemedText type="title" style={styles.title}>
-        {isRegister ? "Register" : "Login"}
+        Native Wheels
       </ThemedText>
+
       <StyledInput
         placeholder="Username"
         value={username}
@@ -79,15 +82,27 @@ export default function AuthenticationScreen() {
           title="Register"
           onPress={handleRegister}
           type="secondary"
+          icon={<AntDesign name="form" />}
         />
       ) : (
-        <StyledButton title="Login" onPress={handleLogin} />
+        <StyledButton
+          title="Login"
+          onPress={handleLogin}
+          icon={<MaterialIcons name="login" />}
+        />
       )}
       <View style={{ marginTop: 16 }}>
         <StyledButton
           title={isRegister ? "Back to Login" : "Sign Up"}
           onPress={() => setIsRegister(!isRegister)}
           type="outline"
+          icon={
+            isRegister ? (
+              <MaterialIcons name="arrow-back" />
+            ) : (
+              <AntDesign name="form" />
+            )
+          }
         />
       </View>
     </ThemedView>
@@ -103,8 +118,5 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 24,
     textAlign: "center",
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#333",
   },
 });
