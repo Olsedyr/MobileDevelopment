@@ -6,13 +6,15 @@ import React, {
   useEffect,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { authenticate, register, removeAuthHeader } from "@/axios/auth";
+
 import Toast from "react-native-toast-message";
+import { authenticate, register, removeAuthHeader } from "@/axios/auth/api";
+import { Credentials } from "@/axios/auth/types";
 
 interface AuthContextProps {
   token: string | null;
-  login: (username: string, password: string) => Promise<void>;
-  signup: (username: string, password: string) => Promise<void>;
+  login: (credentials: Credentials) => Promise<void>;
+  signup: (credentials: Credentials) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -34,15 +36,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loadToken();
   }, []);
 
-  const login = async (username: string, password: string): Promise<void> => {
-    const { token, tokenType } = await authenticate(username, password);
+  const login = async (credentials: Credentials): Promise<void> => {
+    const { token, tokenType } = await authenticate(credentials);
     setToken(token);
     setIsAuthenticated(true);
     await AsyncStorage.setItem("token", token);
   };
 
-  const signup = async (username: string, password: string): Promise<void> => {
-    await register(username, password);
+  const signup = async (credentials: Credentials): Promise<void> => {
+    await register(credentials);
   };
 
   const logout = async () => {

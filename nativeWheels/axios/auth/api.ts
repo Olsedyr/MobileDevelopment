@@ -1,13 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import instance from "@/axios/instance";
-
-interface UserInfo {
-  username: string;
-}
+import { Credentials, UserInfo } from "./types";
 
 const authorizationHeader = "Authorization";
 
-export const authenticate = async (username: string, password: string) => {
+export const authenticate = async ({ username, password }: Credentials) => {
   try {
     const response = await instance.post("/auth/login", { username, password });
     const { token, tokenType } = response.data;
@@ -22,7 +19,7 @@ export const authenticate = async (username: string, password: string) => {
   }
 };
 
-export const register = async (username: string, password: string) => {
+export const register = async ({ username, password }: Credentials) => {
   try {
     await instance.post("/auth/register", {
       username,

@@ -15,12 +15,13 @@ export default function AuthenticationScreen() {
 
   const handleLogin = async () => {
     try {
-      await login(username, password);
+      await login({ username, password });
       Toast.show({
         type: "success",
         text1: "Login successful",
         text2: "Welcome back!",
-        position: "bottom",
+        position: "top",
+        topOffset: 60,
       });
     } catch (error) {
       Toast.show({
@@ -34,7 +35,7 @@ export default function AuthenticationScreen() {
 
   const handleRegister = async () => {
     try {
-      await signup(username, password);
+      await signup({ username, password });
       Toast.show({
         type: "success",
         text1: "Registration successful",
@@ -42,6 +43,8 @@ export default function AuthenticationScreen() {
         position: "bottom",
       });
       setIsRegister(false);
+      setUsername("");
+      setPassword("");
     } catch (error) {
       Toast.show({
         type: "error",
