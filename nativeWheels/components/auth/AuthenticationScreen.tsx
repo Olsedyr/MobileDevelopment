@@ -75,7 +75,11 @@ export default function AuthenticationScreen() {
         secureTextEntry
       />
       {isRegister ? (
-        <StyledButton title="Register" onPress={handleRegister} />
+        <StyledButton
+          title="Register"
+          onPress={handleRegister}
+          type="secondary"
+        />
       ) : (
         <StyledButton title="Login" onPress={handleLogin} />
       )}
@@ -83,7 +87,7 @@ export default function AuthenticationScreen() {
         <StyledButton
           title={isRegister ? "Back to Login" : "Sign Up"}
           onPress={() => setIsRegister(!isRegister)}
-          type="secondary"
+          type="outline"
         />
       </View>
     </ThemedView>

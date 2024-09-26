@@ -10,7 +10,7 @@ import {
 interface StyledButtonProps extends TouchableOpacityProps {
   title: string;
   onPress: () => void;
-  type?: "primary" | "secondary";
+  type?: "primary" | "secondary" | "outline";
 }
 
 export default function StyledButton({
@@ -21,14 +21,18 @@ export default function StyledButton({
 }: StyledButtonProps) {
   return (
     <TouchableOpacity
-      style={[styles.button, type === "secondary" && styles.secondaryButton]}
+      style={[
+        styles.button,
+        type === "outline" && styles.outlineButton,
+        type === "secondary" && styles.secondaryButton,
+      ]}
       onPress={onPress}
       {...props}
     >
       <Text
         style={[
           styles.buttonText,
-          type === "secondary" && styles.secondaryButtonText,
+          type === "outline" && styles.outlineButtonText,
         ]}
       >
         {title}
@@ -55,12 +59,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  secondaryButton: {
+  outlineButton: {
     backgroundColor: "#fff",
     borderColor: "#ccc",
     borderWidth: 1,
   },
-  secondaryButtonText: {
+  outlineButtonText: {
     color: "#555",
+  },
+  secondaryButton: {
+    backgroundColor: Colors.light.secondaryTint,
   },
 });
