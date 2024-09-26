@@ -3,9 +3,10 @@ import { View, StyleSheet } from "react-native";
 import { useAuth } from "@/contexts/AuthContext";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import Toast from "react-native-toast-message";
 import StyledInput from "../StyledInput";
 import StyledButton from "../StyledButton";
+import { showErrorToast, showSuccessToast } from "../toast";
+import { AxiosError } from "axios";
 
 export default function AuthenticationScreen() {
   const { login, signup } = useAuth();
@@ -16,42 +17,32 @@ export default function AuthenticationScreen() {
   const handleLogin = async () => {
     try {
       await login({ username, password });
-      Toast.show({
-        type: "success",
-        text1: "Login successful",
-        text2: "Welcome back!",
-        position: "top",
-        topOffset: 60,
-      });
+      showSuccessToast("Login successful", "Welcome back!");
     } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: "Login failed",
-        text2: "Please check your username and password.",
-        position: "bottom",
-      });
+      showErrorToast(
+        "Login failed",
+        "Please check your username and password."
+      );
     }
   };
 
   const handleRegister = async () => {
     try {
       await signup({ username, password });
-      Toast.show({
-        type: "success",
-        text1: "Registration successful",
-        text2: "You can now login.",
-        position: "bottom",
-      });
+      showSuccessToast("Registration successful", "You can now login.");
       setIsRegister(false);
       setUsername("");
       setPassword("");
     } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: "Registration failed",
-        text2: "Please check your details and try again.",
-        position: "bottom",
-      });
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 400) {
+        showErrorToast("Registration failed", "Username is already taken.");
+      } else {
+        showErrorToast(
+          "Registration failed",
+          "Please check your details and try again."
+        );
+      }
     }
   };
 

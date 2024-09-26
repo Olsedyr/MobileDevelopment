@@ -9,6 +9,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { useAuth } from "@/contexts/AuthContext";
 import Toast from "react-native-toast-message";
 import { getUserInfo } from "@/axios/auth/api";
+import { showInfoToast } from "@/components/toast";
 
 export default function HomeScreen() {
   const [username, setUsername] = useState<string | null>(null);
@@ -16,12 +17,7 @@ export default function HomeScreen() {
 
   const handleLogout = async () => {
     logout();
-    Toast.show({
-      type: "info",
-      text1: "Logged out",
-      text2: "You have been successfully logged out.",
-      position: "bottom",
-    });
+    showInfoToast("Logged out", "You have been successfully logged out.");
   };
   useEffect(() => {
     const fetchUserInfo = async () => {
