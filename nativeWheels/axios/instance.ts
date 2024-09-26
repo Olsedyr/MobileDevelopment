@@ -1,8 +1,7 @@
 import axios from "axios";
-import { API_BASE_URL } from "@env";
 
 const instance = axios.create({
-  baseURL: `${API_BASE_URL}/api`,
+  baseURL: `${process.env.EXPO_PUBLIC_API_URL}/api`,
 });
 
 export default instance;
