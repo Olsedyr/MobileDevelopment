@@ -14,7 +14,17 @@ export default function AuthenticationScreen() {
   const [password, setPassword] = useState("");
   const [isRegister, setIsRegister] = useState(false);
 
+  const validateInputs = () => {
+    if (!username || !password) {
+      showErrorToast("Validation Error", "Please fill in all fields.");
+      return false;
+    }
+    return true;
+  };
+
   const handleLogin = async () => {
+    if (!validateInputs()) return;
+
     try {
       await login({ username, password });
       showSuccessToast("Login successful", "Welcome back!");
@@ -27,6 +37,8 @@ export default function AuthenticationScreen() {
   };
 
   const handleRegister = async () => {
+    if (!validateInputs()) return;
+
     try {
       await signup({ username, password });
       showSuccessToast("Registration successful", "You can now login.");
