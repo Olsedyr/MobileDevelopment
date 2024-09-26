@@ -5,13 +5,17 @@ import instance from "@/axios/instance";
 import { showErrorToast } from "@/components/toast";
 
 const AxiosErrorHandler = ({ children }: { children: React.ReactNode }) => {
-  const { logout } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
 
   useEffect(() => {
     const responseInterceptor = instance.interceptors.response.use(
       (response) => response,
       async (error) => {
-        if (error.response && error.response.status === 401) {
+        if (
+          error.response &&
+          error.response.status === 401 &&
+          isAuthenticated
+        ) {
           logout();
           showErrorToast("Session expired", "Please log in again.");
         }
