@@ -38,6 +38,15 @@ export default function TabLayout() {
             />
           ),
         }}
+      />{" "}
+      <Tabs.Screen
+        name="available-cars"
+        options={{
+          title: "Available Cars",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? "car" : "car"} color={color} />
+          ),
+        }}
       />
     </Tabs>
   );
