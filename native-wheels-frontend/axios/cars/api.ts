@@ -1,15 +1,9 @@
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Car } from "@/axios/cars/types";
+import instance from "@/axios/instance";
 
 export const fetchCars = async (): Promise<Car[]> => {
   try {
-    const token = await AsyncStorage.getItem("token");
-    const response = await axios.get<Car[]>("http://localhost:8080/api/cars", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await instance.get<Car[]>("/cars");
     return response.data;
   } catch (err) {
     throw new Error(err instanceof Error ? err.message : "An error occurred.");
