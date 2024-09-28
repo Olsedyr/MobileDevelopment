@@ -8,6 +8,7 @@ const carSchema = new mongoose.Schema({
   image: { type: String, required: true },
   cylinders: { type: Number, required: true },
   horsePower: { type: Number, required: true },
+  price: { type: Number, required: true },
 });
 
 module.exports = mongoose.model("Car", carSchema);

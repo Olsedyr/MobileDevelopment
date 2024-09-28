@@ -24,6 +24,7 @@ const dummyCars = [
     image: "aventador.webp",
     cylinders: 12,
     horsePower: 750,
+    price: 8000,
   },
   {
     make: "Porsche",
@@ -33,6 +34,7 @@ const dummyCars = [
     image: "panamera.webp",
     cylinders: 8,
     horsePower: 550,
+    price: 8000,
   },
   {
     make: "Porsche",
@@ -42,6 +44,7 @@ const dummyCars = [
     image: "gt3touring.webp",
     cylinders: 6,
     horsePower: 510,
+    price: 8000,
   },
   {
     make: "Mercedes",
@@ -51,6 +54,7 @@ const dummyCars = [
     image: "gwagon.webp",
     cylinders: 8,
     horsePower: 585,
+    price: 8000,
   },
   {
     make: "Bentley",
@@ -60,6 +64,7 @@ const dummyCars = [
     image: "bentley.webp",
     cylinders: 8,
     horsePower: 507,
+    price: 8000,
   },
 ];
 
