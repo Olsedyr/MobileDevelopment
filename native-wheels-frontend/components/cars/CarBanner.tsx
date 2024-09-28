@@ -19,7 +19,7 @@ export const CarBanner: React.FC<CarBannerProps> = ({ car }) => {
       <View style={styles.carInfo}>
         <Text style={styles.carName}>{`${car.make} ${car.model}`}</Text>
         <Text style={styles.carDetails}>{`Year: ${car.year}`}</Text>
-        <Text style={styles.carDetails}>{`Price: 400 DKK`}</Text>
+        <Text style={styles.carDetails}>{`Price: ${car.price}`}</Text>
       </View>
     </TouchableOpacity>
   );
