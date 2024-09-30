@@ -28,26 +28,40 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
-        options={{
-          title: "Explore",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
-              color={color}
-            />
-          ),
-        }}
-      />{" "}
-      <Tabs.Screen
         name="available-cars"
         options={{
           title: "Available Cars",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? "car" : "car"} color={color} />
+            <TabBarIcon
+                name={focused ? "car" : "car-outline"}
+                color={color}
+            />
           ),
         }}
       />
+        <Tabs.Screen
+            name="profile"
+            options={{
+                title: "Profile",
+                tabBarIcon: ({ color, focused }) => (
+                    <TabBarIcon
+                        name={focused ? "person-circle" : "person-circle-outline"}
+                        color={color}
+                    />
+                ),
+            }}
+        />
+        <Tabs.Screen
+            name="settings"
+            options={{
+                title: "Settings",
+                tabBarIcon: ({ color, focused }) => (
+                    <TabBarIcon
+                        name={focused ? "settings" : "settings-outline"}
+                        color={color} />
+                ),
+            }}
+        />
     </Tabs>
   );
 }
