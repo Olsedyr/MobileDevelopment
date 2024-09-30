@@ -25,7 +25,7 @@ export default function AvailableCars() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Available Cars</Text>
-      {error && <Text style={styles.errorText}>{error}</Text>}{" "}
+      {error && <Text style={styles.errorText}>{error}</Text>}
       <ScrollView contentContainerStyle={styles.carList}>
         {cars.map((car) => (
           <CarBanner key={car._id} car={car} />
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 16,
+    marginTop: 30
   },
   errorText: {
     color: "red",
