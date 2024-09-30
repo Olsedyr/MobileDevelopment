@@ -4,8 +4,6 @@ import React from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import Ionicons from '@expo/vector-icons/Ionicons';
-import Feather from '@expo/vector-icons/Feather';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -34,7 +32,10 @@ export default function TabLayout() {
         options={{
           title: "Available Cars",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? "car" : "car"} color={color} />
+            <TabBarIcon
+                name={focused ? "car" : "car"}
+                color={color}
+            />
           ),
         }}
       />
@@ -43,7 +44,9 @@ export default function TabLayout() {
             options={{
                 title: "Profile",
                 tabBarIcon: ({ color, focused }) => (
-                    <Ionicons name="person-circle-outline" size={24} color="black"
+                    <TabBarIcon
+                        name={focused ? "person-circle" : "person-circle-outline"}
+                        color={color}
                     />
                 ),
             }}
@@ -53,7 +56,9 @@ export default function TabLayout() {
             options={{
                 title: "Settings",
                 tabBarIcon: ({ color, focused }) => (
-                    <Feather name="settings" size={24} color="black" />
+                    <TabBarIcon
+                        name={focused ? "settings" : "settings-outline"}
+                        color={color} />
                 ),
             }}
         />
