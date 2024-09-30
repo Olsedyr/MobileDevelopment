@@ -52,4 +52,31 @@ router.get("/me", authMiddleware, async (req, res) => {
   }
 });
 
+router.post("/reset-password", authMiddleware, async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isMatch) {
+      return res.status(400).send("Old password is incorrect");
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).send("Password updated successfully");
+  } catch (error) {
+    res.status(500).send("Internal server error");
+  }
+});
+
+
 module.exports = router;

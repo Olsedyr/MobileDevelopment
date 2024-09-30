@@ -1,35 +1,42 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
-
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import React from 'react';
+import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import ResetPasswordScreen from '@/components/settings/ResetPassword';
 
 export default function TabTwoScreen() {
-    return (
-        <ParallaxScrollView
-            headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-            headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
-            <ThemedView style={styles.titleContainer}>
-                <ThemedText type="title">Settings</ThemedText>
-            </ThemedView>
-            <ThemedText>Make some settings</ThemedText>
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Settings</Text>
 
-        </ParallaxScrollView>
-    );
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {/* Include the Reset Password Component */}
+        <ResetPasswordScreen />
+      </ScrollView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    headerImage: {
-        color: '#808080',
-        bottom: -90,
-        left: -35,
-        position: 'absolute',
-    },
-    titleContainer: {
-        flexDirection: 'row',
-        gap: 8,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 16,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 16,
+    marginTop: 64,
+  },
+  scrollContainer: {
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
 });
