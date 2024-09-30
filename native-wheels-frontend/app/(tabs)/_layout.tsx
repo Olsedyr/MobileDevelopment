@@ -33,7 +33,7 @@ export default function TabLayout() {
           title: "Available Cars",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-                name={focused ? "car" : "car"}
+                name={focused ? "car" : "car-outline"}
                 color={color}
             />
           ),
