@@ -78,5 +78,4 @@ router.post("/reset-password", authMiddleware, async (req, res) => {
   }
 });
 
-
 module.exports = router;

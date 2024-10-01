@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import ResetPasswordScreen from '@/components/settings/ResetPassword';
+import React from "react";
+import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import ResetPasswordScreen from "@/components/settings/ResetPassword";
 
 export default function TabTwoScreen() {
   return (
@@ -10,7 +10,6 @@ export default function TabTwoScreen() {
       <Text style={styles.title}>Settings</Text>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {/* Include the Reset Password Component */}
         <ResetPasswordScreen />
       </ScrollView>
     </View>
@@ -20,23 +19,23 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 16,
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 16,
     marginTop: 64,
   },
   scrollContainer: {
     paddingVertical: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
 });
