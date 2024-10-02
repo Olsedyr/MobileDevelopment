@@ -13,7 +13,7 @@ export const CarBanner: React.FC<CarBannerProps> = ({ car }) => {
   return (
     <TouchableOpacity
       style={styles.carCard}
-      onPress={() => navigation.navigate("CarDetails", { carId: car._id })}
+      onPress={() => navigation.navigate("car-details", { carId: car._id })}
     >
       <Image source={{ uri: car.imageUrl }} style={styles.carImage} />
       <View style={styles.carInfo}>

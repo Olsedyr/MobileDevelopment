@@ -13,4 +13,22 @@ router.get("/", async (req, res) => {
   res.json(bookings);
 });
 
+router.post("/", async (req, res) => {
+  try {
+    const { carId, fromBookingDate, toBookingDate } = req.body;
+    const booking = new Booking({
+      userId: req.user.id,
+      carId: carId,
+      fromBookingDate: fromBookingDate,
+      toBookingDate: toBookingDate
+    });
+    await booking.save();
+    res.status(201).json(booking);
+  } catch (error) {
+    console.error("Error creating booking:", error);
+    res.status(500).json({ message: "Error creating booking" });
+  }
+});
+
+
 module.exports = router;

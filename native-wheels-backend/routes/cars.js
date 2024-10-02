@@ -36,12 +36,6 @@ router.post("/:id/book", async (req, res) => {
     car.available = false;
     await car.save();
 
-    const booking = new Booking({
-      userId: req.user.id,
-      carId: car._id,
-    });
-    await booking.save();
-
     res.send("Car booked");
   } else {
     res.status(400).send("Car not available");
