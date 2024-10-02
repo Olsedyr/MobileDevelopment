@@ -15,10 +15,12 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { carId } = req.body;
+    const { carId, fromBookingDate, toBookingDate } = req.body;
     const booking = new Booking({
       userId: req.user.id,
       carId: carId,
+      fromBookingDate: fromBookingDate,
+      toBookingDate: toBookingDate
     });
     await booking.save();
     res.status(201).json(booking);

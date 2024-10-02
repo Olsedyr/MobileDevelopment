@@ -21,11 +21,11 @@ export const getBookings = async () => {
     }
 };
 
-export const createBooking = async (token, carId) => {
+export const createBooking = async ( carId: string, fromBookingDate: Date, toBookingDate: Date) => {
     try {
-        const response = await instance.post("/bookings", { carId }, {
-            headers: { Authorization: `Bearer ${token}` }
+        const response = await instance.post("/bookings", { carId, fromBookingDate, toBookingDate}, {
         });
+        await instance.post(`/cars/${carId}/book`);
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || "Error creating booking");

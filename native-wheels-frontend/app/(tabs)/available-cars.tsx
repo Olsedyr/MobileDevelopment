@@ -1,26 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { Car } from "@/axios/cars/types";
 import { fetchCars } from "@/axios/cars/api";
 import { CarBanner } from "@/components/cars/CarBanner";
+import { useFocusEffect } from '@react-navigation/native';
+
 
 export default function AvailableCars() {
   const [cars, setCars] = useState<Car[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const loadCars = async () => {
-      try {
-        const carData = await fetchCars();
-        setCars(carData);
-      } catch (err) {
-        console.error("Error fetching cars:", err);
-        setError(err.message);
-      }
-    };
+  useFocusEffect(
+    useCallback(() => {
+      const loadCars = async () => {
+        try {
+          const carData = await fetchCars();
+          const availableCars = carData.filter(car => car.available);
+          setCars(availableCars);
+        } catch (err) {
+          console.error("Error fetching cars:", err);
+          setError(err.message);
+        }
+      };
 
-    loadCars();
-  }, []);
+      loadCars();
+    }, [])
+  );
+
 
   return (
     <View style={styles.container}>

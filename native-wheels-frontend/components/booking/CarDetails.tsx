@@ -1,7 +1,8 @@
+import { Car } from "@/axios/cars/types";
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 
-const CarDetailsInfo = ({ car }) => {
+const CarDetailsInfo: React.FC<{ car: Car }> = ({ car }) => {
   return (
     <View style={styles.container}>
       <Image source={{ uri: car.imageUrl }} style={styles.carImage} />
