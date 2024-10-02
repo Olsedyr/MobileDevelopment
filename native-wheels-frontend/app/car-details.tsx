@@ -50,10 +50,11 @@ const CarDetails = () => {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <CarDetailsInfo car={car} />
             <DateTimePickerComp setStartDate={setStartDate} setEndDate={setEndDate} />
 
+            <View style={styles.buttonContainer}>
             <StyledButton
                 title={"Confirm Booking"}
                 icon={<Ionicons name="checkmark" />}
@@ -62,14 +63,22 @@ const CarDetails = () => {
                 }}
             />
         </View>
+    </View>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    buttonContainer: {
+        marginTop: -15
+    },
     errorText: {
         color: "red",
         textAlign: "center",
-        marginVertical: 10,
+        marginVertical: -10,
     },
 });
 

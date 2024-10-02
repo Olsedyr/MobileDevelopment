@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     },
     dateLabel: {
         fontSize: 18,
-        marginVertical: 8,
+        marginVertical: 4,
         fontWeight: "bold",
     },
     datePicker: {
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         width: "100%",
         alignItems: "center",
-        marginBottom: 10,
+        marginBottom: 0,
     },
     dateText: {
         fontSize: 18,
