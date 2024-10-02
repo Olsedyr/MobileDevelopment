@@ -5,6 +5,7 @@ import { fetchCars } from "@/axios/cars/api";
 import { createBooking } from "@/axios/booking/api";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CarDetailsInfo from "@/components/booking/CarDetails";
 
 const CarDetails = () => {
     const route = useRoute();
@@ -69,12 +70,7 @@ const CarDetails = () => {
 
     return (
         <View style={styles.container}>
-            <Image source={{ uri: car.imageUrl }} style={styles.carImage} />
-            <Text style={styles.title}>{`${car.make} ${car.model}`}</Text>
-            <Text style={styles.price}>{`${car.price} DKK per day`}</Text>
-            <Text style={styles.details}>{`${car.horsePower} HP`}</Text>
-            <Text style={styles.details}>{`${car.cylinders} cylinders`}</Text>
-            <Text style={styles.details}>{`${car.year} model`}</Text>
+            <CarDetailsInfo car={car} />
 
             <Text style={styles.dateLabel}>From:</Text>
             <TouchableOpacity onPress={() => setShowStartPicker(true)} style={styles.datePicker}>
