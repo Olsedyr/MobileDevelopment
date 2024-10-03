@@ -65,11 +65,9 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-    width: "105%"
+    height: "100%",
+    width: "100%",
+    resizeMode: "cover",
   },
   titleContainer: {
     flexDirection: 'row',
