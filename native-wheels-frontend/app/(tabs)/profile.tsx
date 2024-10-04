@@ -1,41 +1,95 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, Alert } from 'react-native';
 import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { getBookings } from '@/axios/booking/api';
-import { getBookingHistory } from '@/axios/bookingHistory/api'; // Import your new API function
+import { getBookingHistory } from '@/axios/bookingHistory/api';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { CarBanner } from '@/components/cars/CarBanner';
 import { Booking } from '@/axios/booking/types';
-import { BookingHistory } from '@/axios/bookingHistory/types'; // Import your BookingHistory type
+import { BookingHistory } from '@/axios/bookingHistory/types';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProfileScreen() {
-  const [bookings, setBookings] = useState<Booking[]>([]);
-  const [bookingHistory, setBookingHistory] = useState<BookingHistory[]>([]); // State for booking history
+  const [currentBookings, setCurrentBookings] = useState<Booking[]>([]);
+  const [completedBookings, setCompletedBookings] = useState<BookingHistory[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const headerImage = require('@/assets/images/homepage-header.jpg');
 
   useFocusEffect(
       useCallback(() => {
-        const loadBookingsAndHistory = async () => {
+        const loadBookings = async () => {
           try {
             const bookingData = await getBookings();
-            setBookings(bookingData);
+            setCurrentBookings(bookingData);
 
-            const historyData = await getBookingHistory(); // Fetch booking history
-            setBookingHistory(historyData); // Set booking history data
+            // Automatically complete bookings where the toBookingDate has passed
+            bookingData.forEach(async (booking) => {
+              const currentDate = new Date();
+              const toBookingDate = new Date(booking.toBookingDate);
+
+              if (currentDate >= toBookingDate && booking.status !== 'completed') {
+                // Complete the booking if the toBookingDate has passed
+                await completeBooking(booking._id);
+              }
+            });
           } catch (error: any) {
             console.error('Error fetching bookings:', error);
             setError(error.message);
           }
         };
 
-        loadBookingsAndHistory();
+        const loadBookingHistory = async () => {
+          try {
+            const historyData = await getBookingHistory();
+            setCompletedBookings(historyData);
+          } catch (error: any) {
+            console.error('Error fetching booking history:', error);
+            setError(error.message);
+          }
+        };
+
+        loadBookings();
+        loadBookingHistory();
       }, [])
   );
+
+  // Function to complete a booking with Authorization Header
+  const completeBooking = async (bookingId: string) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      console.log('Retrieved token:', token);
+
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      await axios.post(
+          'http://localhost:8080/api/booking-history/complete-booking',
+          { bookingId },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+      );
+
+      // Move booking from currentBookings to completedBookings
+      setCurrentBookings(prev => prev.filter(booking => booking._id !== bookingId));
+      const completedBooking = currentBookings.find(booking => booking._id === bookingId);
+      if (completedBooking) {
+        setCompletedBookings(prev => [...prev, { ...completedBooking, status: 'completed' }]);
+      }
+
+      // Notify the user of success
+      Alert.alert('Success', 'Booking completed successfully!');
+    } catch (error) {
+      console.error('Error completing booking:', error.response ? error.response.data : error);
+      Alert.alert('Error', 'Failed to complete booking.');
+    }
+  };
 
   return (
       <ParallaxScrollView
@@ -47,11 +101,13 @@ export default function ProfileScreen() {
         </ThemedView>
 
         <ThemedText type="title">Current Bookings</ThemedText>
-        {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
-        {bookings.length > 0 ? (
-            bookings.map((booking) => (
+
+        {currentBookings.length > 0 ? (
+            currentBookings.map((booking) => (
                 <ThemedView key={booking._id} style={styles.bookingItem}>
-                  <CarBanner car={booking.carId} /> {/* CarBanner component */}
+                  <ThemedText>Car: {booking.carId.make} {booking.carId.model}</ThemedText>
+                  <ThemedText>From: {new Date(booking.fromBookingDate).toLocaleDateString()}</ThemedText>
+                  <ThemedText>To: {new Date(booking.toBookingDate).toLocaleDateString()}</ThemedText>
                 </ThemedView>
             ))
         ) : (
@@ -61,13 +117,11 @@ export default function ProfileScreen() {
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">Booking History</ThemedText>
         </ThemedView>
-        {bookingHistory.length > 0 ? (
-            bookingHistory.map((history) => (
-                <ThemedView key={history._id} style={styles.bookingItem}>
-                  <CarBanner car={history.carId} /> {/* CarBanner component */}
-                  <ThemedText>From: {history.fromBookingDate}</ThemedText>
-                  <ThemedText>To: {history.toBookingDate}</ThemedText>
-                  <ThemedText>Completed At: {history.completedAt}</ThemedText>
+        {completedBookings.length > 0 ? (
+            completedBookings.map((bookingHistory) => (
+                <ThemedView key={bookingHistory._id} style={styles.bookingItem}>
+                  <ThemedText>Car: {bookingHistory.carId.make} {bookingHistory.carId.model}</ThemedText>
+                  <ThemedText>Completed On: {new Date(bookingHistory.toBookingDate).toLocaleDateString()}</ThemedText>
                 </ThemedView>
             ))
         ) : (
@@ -79,9 +133,9 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   headerImage: {
-    height: "100%",
-    width: "100%",
-    resizeMode: "cover",
+    height: '100%',
+    width: '100%',
+    resizeMode: 'cover',
   },
   titleContainer: {
     flexDirection: 'row',
