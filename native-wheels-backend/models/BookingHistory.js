@@ -1,19 +1,13 @@
-// models/BookingHistory.js
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const bookingHistorySchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    carId: {
-        make: String,
-        model: String,
-        year: Number,
-        price: Number,
-        imageUrl: String,
-        required: true,
-    },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    carId: { type: mongoose.Schema.Types.ObjectId, ref: "Car", required: true },
     fromBookingDate: { type: Date, required: true },
     toBookingDate: { type: Date, required: true },
-    completedAt: { type: Date, required: true },
+    completedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('BookingHistory', bookingHistorySchema);
+const BookingHistory = mongoose.model("BookingHistory", bookingHistorySchema);
+
+module.exports = BookingHistory;
