@@ -9,7 +9,6 @@ const bookingHistorySchema = new mongoose.Schema({
         year: Number,
         price: Number,
         imageUrl: String,
-        required: true,
     },
     fromBookingDate: { type: Date, required: true },
     toBookingDate: { type: Date, required: true },

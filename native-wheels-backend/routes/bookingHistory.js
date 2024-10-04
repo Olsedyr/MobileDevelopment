@@ -22,6 +22,10 @@ router.post('/complete-booking', async (req, res) => {
     const { bookingId } = req.body;
 
     try {
+        console.log("Received bookingId:", bookingId);
+
+        if (!booking) return res.status(404).json({ message: 'Booking not found' });
+
         // Find the current booking
         const booking = await Booking.findById(bookingId).populate('carId');
         if (!booking) return res.status(404).json({ message: 'Booking not found' });
