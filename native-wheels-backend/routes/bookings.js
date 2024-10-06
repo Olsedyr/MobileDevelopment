@@ -1,7 +1,8 @@
-const express = require("express");
-const Booking = require("../models/Booking");
-const BookingHistory = require("../models/BookingHistory"); // Import BookingHistory model
-const authMiddleware = require("../middleware/auth");
+const express = require('express');
+const Booking = require('../models/Booking');
+const BookingHistory = require('../models/BookingHistory'); // Import BookingHistory model
+const authMiddleware = require('../middleware/auth');
+const { addImageUrl } = require('./util');
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ const moveExpiredBookingsToHistory = async (userId) => {
   const expiredBookings = await Booking.find({
     userId: userId,
     toBookingDate: { $lt: now }, // Check for expired bookings
-  }).populate("carId");
+  }).populate('carId');
 
   if (expiredBookings.length > 0) {
     // Create history records
@@ -28,25 +29,38 @@ const moveExpiredBookingsToHistory = async (userId) => {
     await BookingHistory.insertMany(historyRecords); // Insert into history
 
     // Remove expired bookings
-    await Booking.deleteMany({ _id: { $in: expiredBookings.map((b) => b._id) } });
+    await Booking.deleteMany({
+      _id: { $in: expiredBookings.map((b) => b._id) },
+    });
   }
 };
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     // Move expired bookings to history
     await moveExpiredBookingsToHistory(req.user.id);
 
     // Fetch current bookings
-    const bookings = await Booking.find({ userId: req.user.id }).populate("carId");
-    res.json(bookings);
+    const bookings = await Booking.find({ userId: req.user.id }).populate(
+      'carId'
+    );
+
+    const bookingsWithImageUrls = bookings.map((booking) => {
+      const carWithImageUrl = addImageUrl(booking.carId, req);
+      return {
+        ...booking.toObject(),
+        carId: carWithImageUrl,
+      };
+    });
+
+    res.json(bookingsWithImageUrls);
   } catch (error) {
-    console.error("Error fetching bookings:", error);
-    res.status(500).json({ message: "Error fetching bookings" });
+    console.error('Error fetching bookings:', error);
+    res.status(500).json({ message: 'Error fetching bookings' });
   }
 });
 
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { carId, fromBookingDate, toBookingDate } = req.body;
     const booking = new Booking({
@@ -58,8 +72,8 @@ router.post("/", async (req, res) => {
     await booking.save();
     res.status(201).json(booking);
   } catch (error) {
-    console.error("Error creating booking:", error);
-    res.status(500).json({ message: "Error creating booking" });
+    console.error('Error creating booking:', error);
+    res.status(500).json({ message: 'Error creating booking' });
   }
 });
 
