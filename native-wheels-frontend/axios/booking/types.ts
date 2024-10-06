@@ -6,6 +6,7 @@ export type Booking = {
         make: string;
         year: number;
         price: number;
+        image: string;
         imageUrl: string;
     };
     fromBookingDate: string;

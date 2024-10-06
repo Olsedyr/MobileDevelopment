@@ -10,13 +10,13 @@ export const getBookingHistory = async (): Promise<BookingHistory[]> => {
             throw new Error("User is not authenticated");
         }
 
-        const response = await instance.get<BookingHistory[]>("/bookingHistory", {
+        const response = await instance.get<BookingHistory[]>("/booking-history", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
-
-        return response.data; // Assuming this is the structure of your response
+        console.log(response.data)
+        return response.data;// Assuming this is the structure of your response
     } catch (error) {
         console.error("Error fetching booking history:", error);
         throw error;

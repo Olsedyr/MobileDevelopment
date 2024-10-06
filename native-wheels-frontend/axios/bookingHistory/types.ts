@@ -6,6 +6,7 @@ export type BookingHistory = {
         model: string;
         year: number;
         price: number;
+        image: string;
         imageUrl: string;
     };
     fromBookingDate: string;

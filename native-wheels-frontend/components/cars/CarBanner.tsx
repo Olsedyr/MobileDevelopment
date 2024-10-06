@@ -5,23 +5,34 @@ import { Car } from "@/axios/cars/types";
 
 interface CarBannerProps {
   car: Car;
+  clickable?: boolean;
 }
 
-export const CarBanner: React.FC<CarBannerProps> = ({ car }) => {
+export const CarBanner: React.FC<CarBannerProps> = ({car, booking, clickable = true }) => {
   const navigation = useNavigation();
+  console.log(car);
 
-  return (
-    <TouchableOpacity
-      style={styles.carCard}
-      onPress={() => navigation.navigate("car-details", { carId: car._id })}
-    >
-      <Image source={{ uri: car.imageUrl }} style={styles.carImage} />
-      <View style={styles.carInfo}>
-        <Text style={styles.carName}>{`${car.make} ${car.model}`}</Text>
-        <Text style={styles.carDetails}>{`Year: ${car.year}`}</Text>
-        <Text style={styles.carDetails}>{`Price: ${car.price}`}</Text>
-      </View>
-    </TouchableOpacity>
+  const Content = (
+      <>
+        <Image source={{ uri: car.imageUrl }} style={styles.carImage} />
+        <View style={styles.carInfo}>
+          <Text style={styles.carName}>{`${car.make} ${car.model}`}</Text>
+          <Text style={styles.carDetails}>{`Year: ${car.year}`}</Text>
+          <Text style={styles.carDetails}>{`Price: ${car.price}`}</Text>
+        </View>
+      </>
+  );
+
+
+  return clickable ? (
+      <TouchableOpacity
+          style={styles.carCard}
+          onPress={() => navigation.navigate("car-details", { carId: car._id })}
+      >
+        {Content}
+      </TouchableOpacity>
+  ) : (
+      <View style={styles.carCard}>{Content}</View>
   );
 };
 

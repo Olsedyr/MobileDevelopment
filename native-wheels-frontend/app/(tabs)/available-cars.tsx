@@ -34,7 +34,7 @@ export default function AvailableCars() {
       {error && <Text style={styles.errorText}>{error}</Text>}
       <ScrollView contentContainerStyle={styles.carList}>
         {cars.map((car) => (
-          <CarBanner key={car._id} car={car} />
+          <CarBanner key={car._id} car={car} clickable={true} />
         ))}
       </ScrollView>
     </View>
