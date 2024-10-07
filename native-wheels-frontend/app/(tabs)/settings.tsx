@@ -1,8 +1,8 @@
-import React from "react";
-import { StyleSheet, View, ScrollView, Text } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import ResetPasswordScreen from "@/components/settings/ResetPassword";
+import React from "react"
+import { StyleSheet, View, ScrollView, Text } from "react-native"
+import { ThemedText } from "@/components/ThemedText"
+import { ThemedView } from "@/components/ThemedView"
+import ResetPasswordScreen from "@/components/settings/ResetPassword"
 
 export default function TabTwoScreen() {
   return (
@@ -13,7 +13,7 @@ export default function TabTwoScreen() {
         <ResetPasswordScreen />
       </ScrollView>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
   },
-});
+})

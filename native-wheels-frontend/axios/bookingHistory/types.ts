@@ -1,15 +1,9 @@
-// src/axios/bookingHistory/types.ts
+import { Car } from "../cars/types"
+
 export type BookingHistory = {
-    _id: string;
-    carId: {
-        make: string;
-        model: string;
-        year: number;
-        price: number;
-        image: string;
-        imageUrl: string;
-    };
-    fromBookingDate: string;
-    toBookingDate: string;
-    completedAt: string;
-};
+  _id: string
+  carId: Car
+  fromBookingDate: string
+  toBookingDate: string
+  completedAt: string
+}

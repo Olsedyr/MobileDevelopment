@@ -1,18 +1,18 @@
-import { Colors } from "@/constants/Colors";
-import React, { ReactNode } from "react";
+import { Colors } from "@/constants/Colors"
+import React, { ReactNode } from "react"
 import {
   TouchableOpacity,
   Text,
   StyleSheet,
   TouchableOpacityProps,
   View,
-} from "react-native";
+} from "react-native"
 
 interface StyledButtonProps extends TouchableOpacityProps {
-  title: string;
-  onPress: () => void;
-  type?: "primary" | "secondary" | "outline";
-  icon?: ReactNode;
+  title: string
+  onPress: () => void
+  type?: "primary" | "secondary" | "outline"
+  icon?: ReactNode
 }
 
 export default function StyledButton({
@@ -25,7 +25,7 @@ export default function StyledButton({
   const textColor =
     type === "outline"
       ? styles.outlineButtonText.color
-      : styles.buttonText.color;
+      : styles.buttonText.color
 
   return (
     <TouchableOpacity
@@ -56,7 +56,7 @@ export default function StyledButton({
         </Text>
       </View>
     </TouchableOpacity>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -95,4 +95,4 @@ const styles = StyleSheet.create({
   secondaryButton: {
     backgroundColor: Colors.light.secondaryTint,
   },
-});
+})

@@ -1,19 +1,19 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const Car = require("./models/Car");
+const mongoose = require("mongoose")
+const dotenv = require("dotenv")
+const Car = require("./models/Car")
 
 // Load environment variables
-dotenv.config();
+dotenv.config()
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log("MongoDB connected");
+    await mongoose.connect(process.env.MONGODB_URI)
+    console.log("MongoDB connected")
   } catch (error) {
-    console.error("MongoDB connection failed", error);
-    process.exit(1);
+    console.error("MongoDB connection failed", error)
+    process.exit(1)
   }
-};
+}
 
 const dummyCars = [
   {
@@ -24,7 +24,7 @@ const dummyCars = [
     image: "aventador.webp",
     cylinders: 12,
     horsePower: 750,
-    price: 8000,
+    price: 15000,
   },
   {
     make: "Porsche",
@@ -44,7 +44,7 @@ const dummyCars = [
     image: "gt3touring.webp",
     cylinders: 6,
     horsePower: 510,
-    price: 8000,
+    price: 10000,
   },
   {
     make: "Mercedes",
@@ -54,7 +54,7 @@ const dummyCars = [
     image: "gwagon.webp",
     cylinders: 8,
     horsePower: 585,
-    price: 8000,
+    price: 7000,
   },
   {
     make: "Bentley",
@@ -64,18 +64,18 @@ const dummyCars = [
     image: "bentley.webp",
     cylinders: 8,
     horsePower: 507,
-    price: 8000,
+    price: 6000,
   },
-];
+]
 
 const seedCars = async () => {
-  await connectDB();
+  await connectDB()
 
-  await Car.deleteMany({});
-  const result = await Car.insertMany(dummyCars);
-  console.log(`${result.length} cars added.`);
+  await Car.deleteMany({})
+  const result = await Car.insertMany(dummyCars)
+  console.log(`${result.length} cars added.`)
 
-  mongoose.connection.close();
-};
+  mongoose.connection.close()
+}
 
-seedCars();
+seedCars()

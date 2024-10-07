@@ -1,12 +1,12 @@
-import { Tabs } from "expo-router";
-import React from "react";
+import { Tabs } from "expo-router"
+import React from "react"
 
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
-import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { TabBarIcon } from "@/components/navigation/TabBarIcon"
+import { Colors } from "@/constants/Colors"
+import { useColorScheme } from "@/hooks/useColorScheme"
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme()
 
   return (
     <Tabs
@@ -32,36 +32,34 @@ export default function TabLayout() {
         options={{
           title: "Available Cars",
           tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? "car" : "car-outline"} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="bookings"
+        options={{
+          title: "Bookings",
+          tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-                name={focused ? "car" : "car-outline"}
-                color={color}
+              name={focused ? "calendar" : "calendar-outline"}
+              color={color}
             />
           ),
         }}
       />
-        <Tabs.Screen
-            name="profile"
-            options={{
-                title: "Profile",
-                tabBarIcon: ({ color, focused }) => (
-                    <TabBarIcon
-                        name={focused ? "person-circle" : "person-circle-outline"}
-                        color={color}
-                    />
-                ),
-            }}
-        />
-        <Tabs.Screen
-            name="settings"
-            options={{
-                title: "Settings",
-                tabBarIcon: ({ color, focused }) => (
-                    <TabBarIcon
-                        name={focused ? "settings" : "settings-outline"}
-                        color={color} />
-                ),
-            }}
-        />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "settings" : "settings-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
-  );
+  )
 }

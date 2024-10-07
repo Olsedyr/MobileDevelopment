@@ -1,10 +1,10 @@
-import React from "react";
-import { TextInput, StyleSheet, TextInputProps } from "react-native";
+import React from "react"
+import { TextInput, StyleSheet, TextInputProps } from "react-native"
 
 interface StyledInputProps extends TextInputProps {
-  placeholder: string;
-  value: string;
-  onChangeText: (text: string) => void;
+  placeholder: string
+  value: string
+  onChangeText: (text: string) => void
 }
 
 export default function StyledInput({
@@ -22,7 +22,7 @@ export default function StyledInput({
       placeholderTextColor="#888"
       {...props}
     />
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 2,
   },
-});
+})

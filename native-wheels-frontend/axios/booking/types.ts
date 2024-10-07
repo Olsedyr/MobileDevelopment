@@ -1,14 +1,8 @@
-// src/axios/booking/type.ts
+import { Car } from "../cars/types"
+
 export type Booking = {
-    _id: string;
-    carId: {
-        model: string;
-        make: string;
-        year: number;
-        price: number;
-        image: string;
-        imageUrl: string;
-    };
-    fromBookingDate: string;
-    toBookingDate: string;
-};
+  _id: string
+  carId: Car
+  fromBookingDate: string
+  toBookingDate: string
+}
