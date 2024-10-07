@@ -18,7 +18,6 @@ export default function AvailableCars() {
           setCars(availableCars);
         } catch (err) {
           console.error('Error fetching cars:', err);
-          setError(err.message);
         }
       };
 
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 16,
-    marginTop: 30,
+    marginTop: 50,
   },
   errorText: {
     color: 'red',

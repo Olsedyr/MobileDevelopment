@@ -13,6 +13,9 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useNavigation } from '@react-navigation/native';
 import { getUserInfo } from '@/axios/auth/api';
+import StyledButton from '@/components/StyledButton';
+import { Ionicons } from '@expo/vector-icons';
+import { HelloWave } from '@/components/HelloWave';
 
 export default function HomeScreen() {
   const [username, setUsername] = useState<string | null>(null);
@@ -39,19 +42,21 @@ export default function HomeScreen() {
     >
       <ThemedView style={styles.container}>
         <ThemedText type="title" style={styles.titleText}>
-          Hello {username}
+          Welcome {username}! <HelloWave />
         </ThemedText>
         <ThemedText>
-          Welcome to Native Wheels! Discover the perfect vehicle for your
-          journey. Whether you’re planning a road trip or need a ride for the
-          day, we’ve got you covered. Press the button below to get started
+          This is Native Wheels! Discover the perfect vehicle for your journey.
+          Whether you’re planning a road trip or need a ride for the day, we’ve
+          got you covered.
         </ThemedText>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('available-cars')}
-        >
-          <Text style={styles.buttonText}>Available cars</Text>
-        </TouchableOpacity>
+
+        <View style={{ marginTop: 16 }}>
+          <StyledButton
+            title="Show Available Cars"
+            onPress={() => navigation.navigate('available-cars')}
+            icon={<Ionicons name="car" />}
+          />
+        </View>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -60,8 +65,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+
     paddingVertical: 50,
   },
   header: {
@@ -74,18 +78,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 16,
-  },
-  button: {
-    backgroundColor: 'blue',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 24,
-    elevation: 3,
-    marginTop: 30,
-  },
-  buttonText: {
-    color: '#FFF',
-    fontSize: 18,
-    fontWeight: '600',
   },
 });
