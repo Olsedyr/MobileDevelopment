@@ -60,12 +60,7 @@ export default function ProfileScreen() {
 
   const completeBooking = async (bookingId: string) => {
     try {
-      const token = await AsyncStorage.getItem('token');
-      if (!token) {
-        throw new Error('No authentication token found');
-      }
-
-      await axios.get('http://localhost:8080/api/booking-history');
+      await getBookingHistory();
 
       setCurrentBookings((prev) =>
         prev.filter((booking) => booking._id !== bookingId)

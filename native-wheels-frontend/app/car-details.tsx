@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { fetchCar } from '@/axios/cars/api';
 import { createBooking } from '@/axios/booking/api';
@@ -15,6 +8,7 @@ import DateTimePickerComp from '@/components/booking/DateTimePickerComp';
 import { Car } from '@/axios/cars/types';
 import StyledButton from '@/components/StyledButton';
 import { Ionicons } from '@expo/vector-icons';
+import { showSuccessToast } from '@/components/toast';
 
 const CarDetails = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -44,8 +38,9 @@ const CarDetails = () => {
 
   const handleBooking = async () => {
     try {
-      const bookingData = await createBooking(carId, startDate, endDate);
+      await createBooking(carId, startDate, endDate);
       navigation.navigate('available-cars');
+      showSuccessToast('Booking confirmed', 'Your booking has been confirmed!');
     } catch (error) {
       console.error('Error confirming booking:', error);
     }

@@ -26,7 +26,6 @@ const moveExpiredBookingsToHistory = async (userId) => {
 
     await BookingHistory.insertMany(historyRecords);
 
-    // Remove expired bookings
     await Booking.deleteMany({
       _id: { $in: expiredBookings.map((b) => b._id) },
     });
@@ -35,10 +34,8 @@ const moveExpiredBookingsToHistory = async (userId) => {
 
 router.get('/', async (req, res) => {
   try {
-    // Move expired bookings to history
     await moveExpiredBookingsToHistory(req.user.id);
 
-    // Fetch current bookings
     const bookings = await Booking.find({ userId: req.user.id }).populate(
       'carId'
     );

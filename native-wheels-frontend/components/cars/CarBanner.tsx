@@ -14,7 +14,6 @@ export const CarBanner: React.FC<CarBannerProps> = ({
   clickable = true,
 }) => {
   const navigation = useNavigation();
-  console.log(car);
 
   const Content = (
     <>
