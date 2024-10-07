@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Alert, View, Text } from 'react-native'; // Import View and Text
+import { StyleSheet, Image, Alert, View, Text } from 'react-native';
 import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { getBookings } from '@/axios/booking/api';

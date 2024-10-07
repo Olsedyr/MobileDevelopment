@@ -20,7 +20,7 @@ function addImageUrl(booking, req) {
 router.get("/", async (req, res) => {
     try {
         const history = await BookingHistory.find({ userId: req.user.id }).populate("carId");
-        const historyWithImageUrls = history.map((booking) => addImageUrl(booking, req)); // Pass the entire booking object
+        const historyWithImageUrls = history.map((booking) => addImageUrl(booking, req));
         res.json(historyWithImageUrls);
         console.log(historyWithImageUrls)
     } catch (error) {

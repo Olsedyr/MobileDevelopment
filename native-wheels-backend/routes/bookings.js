@@ -1,6 +1,6 @@
 const express = require('express');
 const Booking = require('../models/Booking');
-const BookingHistory = require('../models/BookingHistory'); // Import BookingHistory model
+const BookingHistory = require('../models/BookingHistory');
 const authMiddleware = require('../middleware/auth');
 const { addImageUrl } = require('./util');
 
@@ -8,16 +8,15 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
-// Function to move expired bookings to history
 const moveExpiredBookingsToHistory = async (userId) => {
   const now = new Date();
   const expiredBookings = await Booking.find({
     userId: userId,
-    toBookingDate: { $lt: now }, // Check for expired bookings
+    toBookingDate: { $lt: now },
   }).populate('carId');
 
   if (expiredBookings.length > 0) {
-    // Create history records
+
     const historyRecords = expiredBookings.map((booking) => ({
       userId: booking.userId,
       carId: booking.carId,
@@ -26,7 +25,7 @@ const moveExpiredBookingsToHistory = async (userId) => {
       completedAt: now,
     }));
 
-    await BookingHistory.insertMany(historyRecords); // Insert into history
+    await BookingHistory.insertMany(historyRecords);
 
     // Remove expired bookings
     await Booking.deleteMany({
