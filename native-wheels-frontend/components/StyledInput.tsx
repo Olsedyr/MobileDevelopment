@@ -1,5 +1,5 @@
-import React from "react";
-import { TextInput, StyleSheet, TextInputProps } from "react-native";
+import React from 'react';
+import { TextInput, StyleSheet, TextInputProps } from 'react-native';
 
 interface StyledInputProps extends TextInputProps {
   placeholder: string;
@@ -28,13 +28,13 @@ export default function StyledInput({
 const styles = StyleSheet.create({
   input: {
     height: 50,
-    borderColor: "#ddd",
+    borderColor: '#ddd',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 16,
     paddingHorizontal: 16,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
+    backgroundColor: '#fff',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,

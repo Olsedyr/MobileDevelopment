@@ -16,7 +16,6 @@ const moveExpiredBookingsToHistory = async (userId) => {
   }).populate('carId');
 
   if (expiredBookings.length > 0) {
-
     const historyRecords = expiredBookings.map((booking) => ({
       userId: booking.userId,
       carId: booking.carId,

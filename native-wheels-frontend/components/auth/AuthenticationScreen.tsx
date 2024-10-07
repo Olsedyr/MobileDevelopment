@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
-import { useAuth } from "@/contexts/AuthContext";
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
-import StyledInput from "../StyledInput";
-import StyledButton from "../StyledButton";
-import { showErrorToast, showSuccessToast } from "../toast";
-import { AxiosError } from "axios";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { useAuth } from '@/contexts/AuthContext';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import StyledInput from '../StyledInput';
+import StyledButton from '../StyledButton';
+import { showErrorToast, showSuccessToast } from '../toast';
+import { AxiosError } from 'axios';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function AuthenticationScreen() {
   const { login, signup } = useAuth();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [isRegister, setIsRegister] = useState(false);
 
   const validateInputs = () => {
     if (!username || !password) {
-      showErrorToast("Validation Error", "Please fill in all fields.");
+      showErrorToast('Validation Error', 'Please fill in all fields.');
       return false;
     }
     return true;
@@ -29,11 +29,11 @@ export default function AuthenticationScreen() {
 
     try {
       await login({ username, password });
-      showSuccessToast("Login successful", "Welcome back!");
+      showSuccessToast('Login successful', 'Welcome back!');
     } catch (error) {
       showErrorToast(
-        "Login failed",
-        "Please check your username and password."
+        'Login failed',
+        'Please check your username and password.'
       );
     }
   };
@@ -43,18 +43,18 @@ export default function AuthenticationScreen() {
 
     try {
       await signup({ username, password });
-      showSuccessToast("Registration successful", "You can now login.");
+      showSuccessToast('Registration successful', 'You can now login.');
       setIsRegister(false);
-      setUsername("");
-      setPassword("");
+      setUsername('');
+      setPassword('');
     } catch (error) {
       const axiosError = error as AxiosError;
       if (axiosError.response?.status === 400) {
-        showErrorToast("Registration failed", "Username is already taken.");
+        showErrorToast('Registration failed', 'Username is already taken.');
       } else {
         showErrorToast(
-          "Registration failed",
-          "Please check your details and try again."
+          'Registration failed',
+          'Please check your details and try again.'
         );
       }
     }
@@ -93,7 +93,7 @@ export default function AuthenticationScreen() {
       )}
       <View style={{ marginTop: 16 }}>
         <StyledButton
-          title={isRegister ? "Back to Login" : "Sign Up"}
+          title={isRegister ? 'Back to Login' : 'Sign Up'}
           onPress={() => setIsRegister(!isRegister)}
           type="outline"
           icon={
@@ -112,11 +112,11 @@ export default function AuthenticationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     padding: 16,
   },
   title: {
     marginBottom: 24,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });

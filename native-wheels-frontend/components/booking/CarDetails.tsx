@@ -1,6 +1,6 @@
-import { Car } from "@/axios/cars/types";
-import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { Car } from '@/axios/cars/types';
+import React from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 const CarDetailsInfo: React.FC<{ car: Car }> = ({ car }) => {
   return (
@@ -17,7 +17,7 @@ const CarDetailsInfo: React.FC<{ car: Car }> = ({ car }) => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   carImage: {
     width: 400,
@@ -27,20 +27,20 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
     marginBottom: 8,
   },
   price: {
     fontSize: 20,
-    color: "red",
+    color: 'red',
     marginBottom: 8,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   details: {
     fontSize: 18,
     marginVertical: 2,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
 

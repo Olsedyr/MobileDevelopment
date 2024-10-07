@@ -4,12 +4,12 @@ import React, {
   useContext,
   ReactNode,
   useEffect,
-} from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Toast from "react-native-toast-message";
-import { authenticate, register, removeAuthHeader } from "@/axios/auth/api";
-import { Credentials } from "@/axios/auth/types";
+import Toast from 'react-native-toast-message';
+import { authenticate, register, removeAuthHeader } from '@/axios/auth/api';
+import { Credentials } from '@/axios/auth/types';
 
 interface AuthContextProps {
   token: string | null;
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const loadToken = async () => {
-      const storedToken = await AsyncStorage.getItem("token");
+      const storedToken = await AsyncStorage.getItem('token');
       if (storedToken) {
         setToken(storedToken);
         setIsAuthenticated(true);
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { token, tokenType } = await authenticate(credentials);
     setToken(token);
     setIsAuthenticated(true);
-    await AsyncStorage.setItem("token", token);
+    await AsyncStorage.setItem('token', token);
   };
 
   const signup = async (credentials: Credentials): Promise<void> => {
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     removeAuthHeader();
-    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem('token');
     setToken(null);
     setIsAuthenticated(false);
   };
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };

@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
-import { Car } from "@/axios/cars/types";
-import { fetchCars } from "@/axios/cars/api";
-import { CarBanner } from "@/components/cars/CarBanner";
+import React, { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { Car } from '@/axios/cars/types';
+import { fetchCars } from '@/axios/cars/api';
+import { CarBanner } from '@/components/cars/CarBanner';
 import { useFocusEffect } from '@react-navigation/native';
-
 
 export default function AvailableCars() {
   const [cars, setCars] = useState<Car[]>([]);
@@ -15,10 +14,10 @@ export default function AvailableCars() {
       const loadCars = async () => {
         try {
           const carData = await fetchCars();
-          const availableCars = carData.filter(car => car.available);
+          const availableCars = carData.filter((car) => car.available);
           setCars(availableCars);
         } catch (err) {
-          console.error("Error fetching cars:", err);
+          console.error('Error fetching cars:', err);
           setError(err.message);
         }
       };
@@ -26,7 +25,6 @@ export default function AvailableCars() {
       loadCars();
     }, [])
   );
-
 
   return (
     <View style={styles.container}>
@@ -45,21 +43,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
     marginBottom: 16,
-    marginTop: 30
+    marginTop: 30,
   },
   errorText: {
-    color: "red",
-    textAlign: "center",
+    color: 'red',
+    textAlign: 'center',
     marginVertical: 10,
   },
   carList: {
-    alignItems: "center",
+    alignItems: 'center',
   },
 });
