@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect } from "react"
 
-import { useAuth } from './AuthContext';
-import instance from '@/axios/instance';
-import { showErrorToast } from '@/components/toast';
+import { useAuth } from "./AuthContext"
+import instance from "@/axios/instance"
+import { showErrorToast } from "@/components/toast"
 
 const AxiosErrorHandler = ({ children }: { children: React.ReactNode }) => {
-  const { logout, isAuthenticated } = useAuth();
+  const { logout, isAuthenticated } = useAuth()
 
   useEffect(() => {
     const responseInterceptor = instance.interceptors.response.use(
@@ -16,19 +16,19 @@ const AxiosErrorHandler = ({ children }: { children: React.ReactNode }) => {
           error.response.status === 401 &&
           isAuthenticated
         ) {
-          logout();
-          showErrorToast('Session expired', 'Please log in again.');
+          logout()
+          showErrorToast("Session expired", "Please log in again.")
         }
-        return Promise.reject(error);
+        return Promise.reject(error)
       }
-    );
+    )
 
     return () => {
-      instance.interceptors.response.eject(responseInterceptor);
-    };
-  }, [logout]);
+      instance.interceptors.response.eject(responseInterceptor)
+    }
+  }, [logout])
 
-  return <>{children}</>;
-};
+  return <>{children}</>
+}
 
-export default AxiosErrorHandler;
+export default AxiosErrorHandler

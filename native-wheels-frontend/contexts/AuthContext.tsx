@@ -4,55 +4,55 @@ import React, {
   useContext,
   ReactNode,
   useEffect,
-} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+} from "react"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
-import Toast from 'react-native-toast-message';
-import { authenticate, register, removeAuthHeader } from '@/axios/auth/api';
-import { Credentials } from '@/axios/auth/types';
+import Toast from "react-native-toast-message"
+import { authenticate, register, removeAuthHeader } from "@/axios/auth/api"
+import { Credentials } from "@/axios/auth/types"
 
 interface AuthContextProps {
-  token: string | null;
-  login: (credentials: Credentials) => Promise<void>;
-  signup: (credentials: Credentials) => Promise<void>;
-  logout: () => void;
-  isAuthenticated: boolean;
+  token: string | null
+  login: (credentials: Credentials) => Promise<void>
+  signup: (credentials: Credentials) => Promise<void>
+  logout: () => void
+  isAuthenticated: boolean
 }
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
   useEffect(() => {
     const loadToken = async () => {
-      const storedToken = await AsyncStorage.getItem('token');
+      const storedToken = await AsyncStorage.getItem("token")
       if (storedToken) {
-        setToken(storedToken);
-        setIsAuthenticated(true);
+        setToken(storedToken)
+        setIsAuthenticated(true)
       }
-    };
-    loadToken();
-  }, []);
+    }
+    loadToken()
+  }, [])
 
   const login = async (credentials: Credentials): Promise<void> => {
-    const { token, tokenType } = await authenticate(credentials);
-    setToken(token);
-    setIsAuthenticated(true);
-    await AsyncStorage.setItem('token', token);
-  };
+    const { token, tokenType } = await authenticate(credentials)
+    setToken(token)
+    setIsAuthenticated(true)
+    await AsyncStorage.setItem("token", token)
+  }
 
   const signup = async (credentials: Credentials): Promise<void> => {
-    await register(credentials);
-  };
+    await register(credentials)
+  }
 
   const logout = async () => {
-    removeAuthHeader();
-    await AsyncStorage.removeItem('token');
-    setToken(null);
-    setIsAuthenticated(false);
-  };
+    removeAuthHeader()
+    await AsyncStorage.removeItem("token")
+    setToken(null)
+    setIsAuthenticated(false)
+  }
 
   return (
     <AuthContext.Provider
@@ -60,13 +60,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext)
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider")
   }
-  return context;
-};
+  return context
+}

@@ -1,62 +1,69 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import { Car } from '@/axios/cars/types';
-import { fetchCars } from '@/axios/cars/api';
-import { CarBanner } from '@/components/cars/CarBanner';
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from "react"
+import { StyleSheet, View, Text, ScrollView } from "react-native"
+import { Car } from "@/axios/cars/types"
+import { fetchCars } from "@/axios/cars/api"
+import { CarBanner } from "@/components/cars/CarBanner"
+import { useFocusEffect } from "@react-navigation/native"
 
 export default function AvailableCars() {
-  const [cars, setCars] = useState<Car[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [cars, setCars] = useState<Car[]>([])
+  const [error, setError] = useState<string | null>(null)
 
   useFocusEffect(
     useCallback(() => {
       const loadCars = async () => {
         try {
-          const carData = await fetchCars();
-          const availableCars = carData.filter((car) => car.available);
-          setCars(availableCars);
+          const carData = await fetchCars()
+          const availableCars = carData.filter((car) => car.available)
+          setCars(availableCars)
         } catch (err) {
-          console.error('Error fetching cars:', err);
+          console.error("Error fetching cars:", err)
         }
-      };
+      }
 
-      loadCars();
+      loadCars()
     }, [])
-  );
+  )
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Available Cars</Text>
       {error && <Text style={styles.errorText}>{error}</Text>}
       <ScrollView contentContainerStyle={styles.carList}>
+        {cars.length === 0 && <Text>No cars currently available.</Text>}
         {cars.map((car) => (
-          <CarBanner key={car._id} car={car} clickable={true} />
+          <View key={car._id} style={styles.carBannerContainer}>
+            <CarBanner car={car} clickable={true} />
+          </View>
         ))}
       </ScrollView>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 16,
     marginTop: 50,
   },
   errorText: {
-    color: 'red',
-    textAlign: 'center',
+    color: "red",
+    textAlign: "center",
     marginVertical: 10,
   },
   carList: {
-    alignItems: 'center',
+    alignItems: "center",
   },
-});
+  carBannerContainer: {
+    marginBottom: 16,
+    width: "100%",
+    paddingHorizontal: 16,
+  },
+})

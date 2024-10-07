@@ -1,26 +1,35 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useState } from "react"
+import { View, Text, TouchableOpacity, StyleSheet, Modal } from "react-native"
+import DateTimePicker from "@react-native-community/datetimepicker"
+import StyledButton from "../StyledButton"
 
-const DateTimePickerComp = ({ setStartDate, setEndDate }) => {
-  const [startDate, setLocalStartDate] = useState(new Date());
+interface DateTimePickerCompProps {
+  setStartDate: (date: Date) => void
+  setEndDate: (date: Date) => void
+}
+
+const DateTimePickerComp: React.FC<DateTimePickerCompProps> = ({
+  setStartDate,
+  setEndDate,
+}) => {
+  const [startDate, setLocalStartDate] = useState(new Date())
   const [endDate, setLocalEndDate] = useState(
     new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
-  );
-  const [showStartPicker, setShowStartPicker] = useState(false);
-  const [showEndPicker, setShowEndPicker] = useState(false);
+  )
+  const [showStartPicker, setShowStartPicker] = useState(false)
+  const [showEndPicker, setShowEndPicker] = useState(false)
 
   const onChangeStart = (event: any, selectedDate?: Date) => {
-    const currentDate = selectedDate || startDate;
-    setLocalStartDate(currentDate);
-    setStartDate(currentDate);
-  };
+    const currentDate = selectedDate || startDate
+    setLocalStartDate(currentDate)
+    setStartDate(currentDate)
+  }
 
   const onChangeEnd = (event: any, selectedDate?: Date) => {
-    const currentDate = selectedDate || endDate;
-    setLocalEndDate(currentDate);
-    setEndDate(currentDate);
-  };
+    const currentDate = selectedDate || endDate
+    setLocalEndDate(currentDate)
+    setEndDate(currentDate)
+  }
 
   return (
     <View style={styles.container}>
@@ -35,20 +44,20 @@ const DateTimePickerComp = ({ setStartDate, setEndDate }) => {
       <Modal visible={showStartPicker} transparent={true} animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
+            <Text style={styles.dateLabel}>Start of booking</Text>
             <DateTimePicker
               testID="dateTimePicker"
               value={startDate}
               mode="datetime"
-              is24Hour={true}
               display="default"
               onChange={onChangeStart}
             />
-            <TouchableOpacity
-              onPress={() => setShowStartPicker(false)}
-              style={styles.closeButton}
-            >
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <StyledButton
+                title="Confirm"
+                onPress={() => setShowStartPicker(false)}
+              />
+            </View>
           </View>
         </View>
       </Modal>
@@ -64,80 +73,71 @@ const DateTimePickerComp = ({ setStartDate, setEndDate }) => {
       <Modal visible={showEndPicker} transparent={true} animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
+            <Text style={styles.dateLabel}>End of booking</Text>
             <DateTimePicker
               testID="dateTimePicker"
               value={endDate}
               mode="datetime"
-              is24Hour={true}
               display="default"
               onChange={onChangeEnd}
             />
-
-            <TouchableOpacity
-              onPress={() => setShowEndPicker(false)}
-              style={styles.closeButton}
-            >
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <StyledButton
+                title="Confirm"
+                onPress={() => setShowEndPicker(false)}
+              />
+            </View>
           </View>
         </View>
       </Modal>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: "100%",
     marginBottom: 16,
     padding: 10,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderRadius: 8,
     elevation: 2,
   },
   dateLabel: {
     fontSize: 18,
     marginVertical: 4,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   datePicker: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     padding: 15,
     borderRadius: 8,
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
     marginBottom: 0,
   },
   dateText: {
     fontSize: 18,
-    color: '#333',
+    color: "#333",
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContainer: {
-    width: '90%',
-    backgroundColor: 'white',
+    width: "90%",
+    backgroundColor: "white",
     borderRadius: 8,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
     elevation: 5,
   },
-  closeButton: {
-    marginTop: 20,
-    backgroundColor: '#f0f0f0',
-    padding: 10,
-    borderRadius: 5,
-    width: '100%',
-    alignItems: 'center',
+  buttonContainer: {
+    marginTop: 16,
+    alignSelf: "stretch",
   },
-  closeButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
+})
 
-export default DateTimePickerComp;
+export default DateTimePickerComp

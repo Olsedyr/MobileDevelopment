@@ -2,41 +2,41 @@ import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
-} from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+} from "@react-navigation/native"
+import { useFonts } from "expo-font"
+import { Stack } from "expo-router"
+import * as SplashScreen from "expo-splash-screen"
+import { useEffect } from "react"
+import "react-native-reanimated"
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { useColorScheme } from "@/hooks/useColorScheme"
+import { AuthProvider, useAuth } from "@/contexts/AuthContext"
 
-import { ColorSchemeName, LogBox } from 'react-native';
-import AxiosErrorHandler from '@/contexts/AxiosErrorHandler';
+import { ColorSchemeName, LogBox } from "react-native"
+import AxiosErrorHandler from "@/contexts/AxiosErrorHandler"
 
-import Toast from 'react-native-toast-message';
-import AuthenticationScreen from '@/components/auth/AuthenticationScreen';
+import Toast from "react-native-toast-message"
+import AuthenticationScreen from "@/components/auth/AuthenticationScreen"
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-  LogBox.ignoreAllLogs(); //Ignore all log notifications
-  const colorScheme = useColorScheme();
+  LogBox.ignoreLogs(["Warning: ..."]) // Ignore log notification by message
+  LogBox.ignoreAllLogs() //Ignore all log notifications
+  const colorScheme = useColorScheme()
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+  })
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync()
     }
-  }, [loaded]);
+  }, [loaded])
 
   if (!loaded) {
-    return null;
+    return null
   }
 
   return (
@@ -46,22 +46,22 @@ export default function RootLayout() {
         <Toast />
       </AxiosErrorHandler>
     </AuthProvider>
-  );
+  )
 }
 
 function AppContent({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth()
 
   if (!isAuthenticated) {
-    return <AuthenticationScreen />;
+    return <AuthenticationScreen />
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>
-  );
+  )
 }

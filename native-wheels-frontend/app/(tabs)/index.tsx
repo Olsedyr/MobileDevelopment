@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react"
 import {
   Image,
   StyleSheet,
@@ -6,36 +6,36 @@ import {
   View,
   TouchableOpacity,
   Text,
-} from 'react-native';
+} from "react-native"
 
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { useNavigation } from '@react-navigation/native';
-import { getUserInfo } from '@/axios/auth/api';
-import StyledButton from '@/components/StyledButton';
-import { Ionicons } from '@expo/vector-icons';
-import { HelloWave } from '@/components/HelloWave';
+import ParallaxScrollView from "@/components/ParallaxScrollView"
+import { ThemedText } from "@/components/ThemedText"
+import { ThemedView } from "@/components/ThemedView"
+import { useNavigation } from "@react-navigation/native"
+import { getUserInfo } from "@/axios/auth/api"
+import StyledButton from "@/components/StyledButton"
+import { Ionicons } from "@expo/vector-icons"
+import { HelloWave } from "@/components/HelloWave"
 
 export default function HomeScreen() {
-  const [username, setUsername] = useState<string | null>(null);
-  const navigation = useNavigation();
+  const [username, setUsername] = useState<string | null>(null)
+  const navigation = useNavigation()
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const userInfo = await getUserInfo();
-      setUsername(userInfo.username);
-    };
+      const userInfo = await getUserInfo()
+      setUsername(userInfo.username)
+    }
 
-    fetchUserInfo();
-  }, []);
+    fetchUserInfo()
+  }, [])
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
       headerImage={
         <Image
-          source={require('@/assets/images/homepage-header.jpg')}
+          source={require("@/assets/images/homepage-header.jpg")}
           style={styles.header}
         />
       }
@@ -53,13 +53,13 @@ export default function HomeScreen() {
         <View style={{ marginTop: 16 }}>
           <StyledButton
             title="Show Available Cars"
-            onPress={() => navigation.navigate('available-cars')}
+            onPress={() => navigation.navigate("available-cars")}
             icon={<Ionicons name="car" />}
           />
         </View>
       </ThemedView>
     </ParallaxScrollView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -69,14 +69,14 @@ const styles = StyleSheet.create({
     paddingVertical: 50,
   },
   header: {
-    height: '100%',
-    width: '100%',
-    resizeMode: 'cover',
+    height: "100%",
+    width: "100%",
+    resizeMode: "cover",
   },
   titleText: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 16,
   },
-});
+})
