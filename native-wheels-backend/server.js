@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
+
+
 // Load environment variables
 dotenv.config();
 
@@ -44,6 +46,10 @@ app.use("/api/cars", carRoutes);
 
 const bookingsRoutes = require("./routes/bookings");
 app.use("/api/bookings", bookingsRoutes);
+
+const bookingHistoryRoutes = require("./routes/bookingHistory")
+app.use("/api/booking-history", bookingHistoryRoutes);
+
 
 // Run the server
 initializeServer();

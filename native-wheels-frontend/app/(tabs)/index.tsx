@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Button, View, TouchableOpacity, Text } from "react-native";
 
-import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-
-import { useAuth } from "@/contexts/AuthContext";
-import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 import { getUserInfo } from "@/axios/auth/api";
-import { showInfoToast } from "@/components/toast";
 
 export default function HomeScreen() {
   const [username, setUsername] = useState<string | null>(null);
-  const { logout } = useAuth();
-
-  const handleLogout = async () => {
-    logout();
-    showInfoToast("Logged out", "You have been successfully logged out.");
-  };
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -42,9 +33,11 @@ export default function HomeScreen() {
         <ThemedView style={styles.container}>
           <ThemedText type="title" style={styles.titleText}>Hello {username}</ThemedText>
           <ThemedText>Welcome to Native Wheels!
-            Discover the perfect vehicle for your journey. Whether you’re planning a road trip or need a ride for the day, we’ve got you covered. Let’s get you on the road!</ThemedText>
-          <TouchableOpacity style={styles.button} onPress={handleLogout}>
-            <Text style={styles.buttonText}>Sign Out</Text>
+            Discover the perfect vehicle for your journey.
+            Whether you’re planning a road trip or need a ride for the day,
+            we’ve got you covered. Press the button below to get started</ThemedText>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("available-cars")}>
+            <Text style={styles.buttonText}>Available cars</Text>
           </TouchableOpacity>
         </ThemedView>
       </ParallaxScrollView>
@@ -70,11 +63,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   button: {
-    backgroundColor: "#FF6F61",
+    backgroundColor: "blue",
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 24,
     elevation: 3,
+    marginTop: 30,
   },
   buttonText: {
     color: "#FFF",

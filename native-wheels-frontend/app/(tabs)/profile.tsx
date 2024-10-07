@@ -1,102 +1,139 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
-
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
+import { StyleSheet, Image, Alert, View, Text } from 'react-native';
+import { useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { getBookings } from '@/axios/booking/api';
+import { getBookingHistory } from '@/axios/bookingHistory/api';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Booking } from '@/axios/booking/types';
+import { BookingHistory } from '@/axios/bookingHistory/types';
+import { CarBanner } from '@/components/cars/CarBanner';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function TabTwoScreen() {
+export default function ProfileScreen() {
+  const [currentBookings, setCurrentBookings] = useState<Booking[]>([]);
+  const [completedBookings, setCompletedBookings] = useState<BookingHistory[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  const headerImage = require('@/assets/images/homepage-header.jpg');
+
+  useFocusEffect(
+      useCallback(() => {
+        const loadBookings = async () => {
+          try {
+            const bookingData = await getBookings();
+            setCurrentBookings(bookingData);
+
+            bookingData.forEach(async (booking) => {
+              const currentDate = new Date();
+              const toBookingDate = new Date(booking.toBookingDate);
+
+              if (currentDate >= toBookingDate && booking.status !== 'completed') {
+                await completeBooking(booking._id);
+              }
+            });
+          } catch (error: any) {
+            console.error('Error fetching bookings:', error);
+            setError(error.message);
+          }
+        };
+
+        const loadBookingHistory = async () => {
+          try {
+            const historyData = await getBookingHistory();
+            setCompletedBookings(historyData);
+          } catch (error: any) {
+            console.error('Error fetching booking history:', error);
+            setError(error.message);
+          }
+        };
+
+        loadBookings();
+        loadBookingHistory();
+      }, [])
+  );
+
+  const completeBooking = async (bookingId: string) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      await axios.get('http://localhost:8080/api/booking-history');
+
+      setCurrentBookings((prev) => prev.filter((booking) => booking._id !== bookingId));
+      const completedBooking = currentBookings.find((booking) => booking._id === bookingId);
+      if (completedBooking) {
+        setCompletedBookings((prev) => [...prev, { ...completedBooking, status: 'completed' }]);
+      }
+
+      Alert.alert('Success', 'Booking completed successfully!');
+    } catch (error) {
+      console.error('Error completing booking:', error.response ? error.response.data : error);
+      Alert.alert('Error', 'Failed to complete booking.');
+    }
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText> library
-          to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+      <ParallaxScrollView
+          headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
+          headerImage={<Image source={headerImage} style={styles.headerImage} />}
+      >
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Profile Page</Text>
+        </View>
+
+        <Text style={styles.title}>Current Bookings</Text>
+
+        {currentBookings.length > 0 ? (
+            currentBookings.map((booking) => (
+                <CarBanner key={booking._id} car={booking.carId} clickable={false} />
+            ))
+        ) : (
+            <Text>No current bookings available</Text>
+        )}
+
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Booking History</Text>
+        </View>
+
+        {completedBookings.length > 0 ? (
+            completedBookings.map((bookingHistory) => (
+                bookingHistory.carId && typeof bookingHistory.carId === 'object' ? (
+                    <CarBanner key={bookingHistory._id} car={bookingHistory.carId} clickable={false} />
+                ) : (
+                    <Text key={bookingHistory._id}>Car details not available</Text>
+                )
+            ))
+        ) : (
+            <Text>No booking history available</Text>
+        )}
+
+      </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    resizeMode: 'cover',
   },
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  bookingItem: {
+    marginVertical: 10,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginVertical: 10,
   },
 });
